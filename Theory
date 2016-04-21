@@ -1,0 +1,128 @@
+1. Name attributes of HTTP protocol makes it difficult to use for real time systems.
+
+ First, what is a REAL TIME system: Any information processing activity or system which has to respond to externally generated input
+ stimuli within a finite and specified period.
+
+ Disadvantages when using http for real time systems:
+ - usage of the request, response pattern which requires a lot of resources to open and close the connection
+ - big latency and network traffic
+ - not scalable for real time systems
+
+2. Explain polling and long-polling strategies, their pros and cons.
+
+Polling = Polling is the process where the computer or controlling device waits for an external device to check for its
+readiness or state, often with low-level hardware.
+
+“Polling is like picking up your phone every few seconds to see if you have a call. ...”
+
+    What if the process is not ready, you have to wait for the result. Do polling!
+
+Polling has the disadvantage that if there are too many devices to check, the time required to poll them can exceed the
+time available to service the I/O device.
+
+Disadvantages: - takes CPU time even when no requests pending
+               - overhead may be reduced at expense of
+                 response time
+Advantages: - cand be efficient if events arrive periodically
+
+Long polling:
+
+    The idea is that each request, by the web app, to the server will have something like a timestamp with it. The timestamp
+value is then used to compare the data's current timestamp on the server. If the server sees that the request's timestamp
+is lower/older than the current timestamp for the data, then the server responds with the updated data and new timestamp
+immediately and ends the response. However, if the server sees that the timestamp is the same as the data's current time
+stamp, then it simply holds off on responding to it until the data's timestamp changes. When the web app gets the response,
+it will immediately make another request with the new timestamp.
+
+HTTP Long-polling is a technique used to push updates to a web client. A connection is held open between the web client
+and the web server so that when the server has new information it can push it to the client. That connection is then closed.
+ A new connection is then established between the client and the server and then wait for another update from the server.
+
+good reference: http://nadirmuzaffar.blogspot.dk/2013/03/polling-long-polling-comet-server-side.html
+
+Advantages: - can handle late responses because it has  a connection opened
+            - it can be very effective at providing genuinely real time updates to users
+            - you are notified WHEN the server event happens with no delay
+
+Disadvantages: - more complex and more server resources used
+               - Header Overhead: every poll response is a complete HTTP message and has a set full of headers
+               - Connection Establishment: A common criticism of both short polling and long polling is that these mechanisms
+               frequently open TCP/IP connections and then close them
+               - Caching: Caching mechanisms implemented by intermediate entities can interfere with long polling requests.
+
+3. What is HTTP streaming, SSE (Server sent events)?
+
+The "HTTP streaming" mechanism keeps a request open indefinitely. It never terminates the request or closes the connection,
+ even after the server pushes data to the client. This mechanism significantly reduces the network latency because the client
+  and the server do not need to open and close the connection.
+
+The basic life cycle of an application using "HTTP streaming" is as follows:
+
+    The client makes an initial request and then waits for a response.
+The server defers the response to a poll request until an update is available, or until a particular status or timeout has occurred.
+Whenever an update is available, the server sends it back to the client as a part of the response.
+The data sent by the server does not terminate the request or the connection. The server returns to step 3.
+
+SSE: Server-sent events (SSE) is a technology where a browser receives automatic updates from a server via HTTP connection.
+The Server-Sent Events EventSource API is standardized as part of HTML5[1] by the W3C.
+
+4. What is WebSocket protocol, how is it different from HTTP communication, what advantages it has over HTTP?
+
+WebSocket is a protocol providing full-duplex communication channels over a single TCP connection.
+
+How is it different from HTTP communication:
+
+Http communication: - based on the req, res pattern
+                    - is half duplex ((of a communications system or computer circuit) allowing the transmission of signals
+                     in both directions but not simultaneously.)
+                    - stateless (the server does not hold info about the client/ state)
+                    - has big overhead (headers and coockies)
+
+Websockets communication: - full duplex, single TCP connection (communication channel)
+                          - bi-directional
+                          - updated from HTTP through the upgrade, connection headers >> handshake process
+                          - the server and the client are equal
+                          - no req, res pattern
+
+5. Explain what the WebSocket Protocol brings to the Web-world.
+
+    - Delivers Full Duplex Communication Model for the Web WebSockets deliver communication between the client and server
+     in both directions simultaneously.
+    - Increased Client and Server Communication Effieciency Traditionally, web apps required your users to establish a
+     connection to a back server using an overhead of HTTP servers. Just two WebSocket frame bytes can replace hundreds of HTTP header bytes.
+    - Saves time
+    - Saves money
+    - Saves Space
+    - Smallest latency, close to no overhead
+
+6. Explain and demonstrate the process of WebSocket communication - From connecting client to server, through sending messages,
+to closing connection.
+
+websockets workflow:  The client establishes a WebSocket connection through a process known as the WebSocket handshake.
+This process starts with the client sending a regular HTTP request to the server. An Upgrade header is included in this
+request that informs the server that the client wishes to establish a WebSocket connection.
+If the server supports the WebSocket protocol, it agrees to the upgrade and communicates this through an Upgrade header in the response.
+
+Now that the handshake is complete the initial HTTP connection is replaced by a WebSocket connection that uses the same underlying TCP/IP connection. At this point either party can starting sending data.
+
+With WebSockets you can transfer as much data as you like without incurring the overhead associated with traditional HTTP
+requests. Data is transferred through a WebSocket as messages, each of which consists of one or more frames containing the
+data you are sending (the payload).
+
+SEE chat example. ot do the example from the web.!!!!
+
+
+7. What's the advantage of using libraries like Socket.IO, Sock.JS, WS, over pure WebSocket libraries in the backend and
+standard APIs on frontend? Which problems do they solve?
+
+
+
+8. What is Backend as a Service, Database as a Service, why would you consider using Firebase in your projects?
+
+9. Explain the pros & cons of using a Backend as a Service Provider like Firebase.
+
+10.Explain and demonstrate “three-way data binding” using Firebase and Angular.
+
+11. Explain and demonstrate the difference between the simple chat system in your own WebSocket + Node.js backend vs. Firebase.
+
+
